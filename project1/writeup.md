@@ -16,7 +16,7 @@ The goals / steps of this project are the following:
 
 ### Reflection
 
-Using the provided helper function I just created a sequence of function call that takes an image and apply the following
+Using the provided helper functions I just created a sequence of calls that takes an image and apply the following to find and draw lane lines
 ####1. Convert to grayscale
 ####2. Apply Guassian Blur (My Kernel Size is 3)
 ####3. Apply Canny Image detection with approrpate values
