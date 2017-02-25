@@ -1,9 +1,4 @@
 #**Finding Lane Lines on the Road** 
-
-##Writeup Template
-
-###You can use this file as a template for your writeup if you want to submit it as a markdown file. But feel free to use some other method and submit a pdf if you prefer.
-
 ---
 
 **Finding Lane Lines on the Road**
@@ -21,27 +16,22 @@ The goals / steps of this project are the following:
 
 ### Reflection
 
-###1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
+Using the provided helper functions I just created a sequence of calls that takes an image and apply the following to find and draw lane lines
+####1. Convert to grayscale
+####2. Apply Guassian Blur (My Kernel Size is 3)
+####3. Apply Canny Image detection with approrpate values
+####4. Create a region masked and apply Hough Line detection using that region.
+####5. Draw the lines.
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
-
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
-
-If you'd like to include images to show how the pipeline works, here is how to include an image: 
-
-![alt text][image1]
+The modifications I made to draw line function are very simple and trivial. Just calcualted the average line coordinates using unique slope value and then found two edge points one at the botton and the other using vertices defined earlier. With a little adjustment in thickness of the lines the results seems pretty close.
 
 
 ###2. Identify potential shortcomings with your current pipeline
 
+The canny edge values or pipeline doesn't seems to be working very well in the video when it comes to broken pavement markers. At times there are frames with missing lines and it shows up as a flicker in the video. 
 
-One potential shortcoming would be what would happen when ... 
-
-Another shortcoming could be ...
 
 
 ###3. Suggest possible improvements to your pipeline
 
-A possible improvement would be to ...
-
-Another potential improvement could be to ...
+Need to adjust the values I guess to make edge detection a little better. 
