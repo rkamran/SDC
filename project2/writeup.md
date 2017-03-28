@@ -33,6 +33,21 @@ c2 = tf.nn.avg_pool(c2, ksize = [1, 2, 2, 1], strides = [1, 2, 2, 1], padding = 
 ```
 The remainig model is pretty much the same with two convulsion layers along with three fully connected layers to map the input images to a set of 43 labels. The first filter layer is 5x5 with depth 6 and the next layer uses a 5x5 with depth 16. The fully connected layers produces output of 120, 84 and then produces the probability matrix of size 43. One hot mapping then uses the highest probability to map the image to a sign.
 
+Here's how the overall network design looks like
+
+| Layer        | Description|
+|:-------------|:-------------|
+|Input Layer|Image 32x32 with 3 color channels|
+|Convolutional Layer 1|1x1 Stride with depth 6 with relu activation and avg_pooling with 2x2 strides|
+|Convolutional Layer 2|1x1 Stride with depth 16 with relu activation and avg_pooling with 2x2 strides|
+|Fully connected layer1|400 to 120 outputs|
+|Drop out layer| 70% To prevent overfitting|
+|Fully connected layer2|129 to 84|
+|Output layer(logits)|finally provides the classification matrix|
+
+
+
+
 To train the model after tunning for several hyper parameters I finally setteled on these values to get an accuracy of 91%.
 ```python
 #HYPER_PARAM
@@ -76,6 +91,17 @@ TopKV2(values=array([[ 35.99718094,  22.21012115,  18.89967346,  13.96571636,  1
        [28, 29, 25, 30, 24],
        [ 3,  5,  2,  1,  6]], dtype=int32))
 ```
+
+#### German Traffic Sign - Analysis
+I have captured these 5 interesting images from streets of Berlin using Google Street view. 
+
+With the current model and converting it to gray
+![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/1.png "Speed limit end Sign")
+![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/2.png "Speed limit end Sign")
+![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/3.png "Speed limit end Sign")
+![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/4.png "Speed limit end Sign")
+![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/5.png "Speed limit end Sign")
+
 
 #### Where to go next?
 I wasn't able to attempt the optional items and also wasn't able to improve performance beyond 92% on the training. I beleive once I am done with my other micro degree (Deep Learning Foundation) I will be able to improve the model a little bit more.
