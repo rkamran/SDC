@@ -94,13 +94,15 @@ TopKV2(values=array([[ 35.99718094,  22.21012115,  18.89967346,  13.96571636,  1
 
 #### German Traffic Sign - Analysis
 I have captured these 5 interesting images from streets of Berlin using Google Street view. 
-
 With the current model and converting it to gray
-![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/1.png "Speed limit end Sign")
-![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/2.png "Speed limit end Sign")
-![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/3.png "Speed limit end Sign")
-![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/4.png "Speed limit end Sign")
-![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/5.png "Speed limit end Sign")
+
+| Images        | Prediction|
+|:------------- |:-------------|
+|![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/1.png "Speed limit end Sign")|This is an interesting sign and if we do grayscaling preprocessing it might turn out to be very similar to speed sign|
+|![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/2.png "Speed limit end Sign")|The shade and other factors on the sign makes it interesting as well. If we have multiple example, network might figure it out properly but with few examples it could be a difficult thing to match. A small filter might mistake confuse zero with a C because of the shadow|
+|![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/3.png "Speed limit end Sign")|This is not a very common sign but the shape is non square (or circle) and could carry a lot of noise if try to fit it in a 32x32 image|
+|![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/4.png "Speed limit end Sign")|Angle of the arrow is very important as a minor rotation will make it right or left. Good quality sample images would be very important|
+|![alt text](https://github.com/rkamran/SDC/blob/master/project2/german_signs/5.png "Speed limit end Sign")|I thought this cluster was interesting because it has usual and unusual traffic signs. Written text could be a very troubling thing for this network as it can be mistaken for anything with text on it|
 
 
 #### Where to go next?
