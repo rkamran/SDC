@@ -38,12 +38,12 @@ Here's how the overall network design looks like
 | Layer        | Description|
 |:-------------|:-------------|
 |Input Layer|Image 32x32 with 3 color channels|
-|Convolutional Layer 1|1x1 Stride with depth 6 with relu activation and avg_pooling with 2x2 strides|
-|Convolutional Layer 2|1x1 Stride with depth 16 with relu activation and avg_pooling with 2x2 strides|
+|Convolutional Layer 1|1x1 Stride of depth 6 with relu activation and avg_pooling with 2x2 strides|
+|Convolutional Layer 2|1x1 Stride of depth 16 with relu activation and avg_pooling with 2x2 strides|
 |Fully connected layer1|400 to 120 outputs|
-|Drop out layer| 70% To prevent overfitting|
+|Drop out layer| 50% To prevent overfitting|
 |Fully connected layer2|129 to 84|
-|Output layer(logits)|finally provides the classification matrix|
+|Output layer(logits)|Ouput layer provides the classification matrix|
 
 
 
@@ -77,19 +77,20 @@ By simply comparing prediction and labels I was able to calculate the profmace o
 Here's the sample output of the probabilities of the model. 
 
 ```python
-TopKV2(values=array([[ 35.99718094,  22.21012115,  18.89967346,  13.96571636,  13.4583683 ],
-       [ 47.02022171,  36.49865723,  33.2827301 ,  15.49156857,
-          2.43720818],
-       [ 60.55839157,  30.59966469,  14.05848503,   1.06750739,
-         -1.17944551],
-       [ 37.71593857,  31.65343285,  26.84954834,  19.51398849,
-         18.42823029],
-       [ 78.330513  ,  33.52876282,  29.87256622,  20.59123802,
-         19.82063293]], dtype=float32), indices=array([[17, 14, 30,  5, 29],
-       [38, 36, 40, 34, 20],
-       [25, 36, 22,  1,  4],
-       [28, 29, 25, 30, 24],
-       [ 3,  5,  2,  1,  6]], dtype=int32))
+TopKV2(values=array([[  9.05268312e-01,   8.89642462e-02,   5.75298956e-03,
+          1.39325812e-05,   2.10835822e-07],
+       [  9.99999881e-01,   1.13391181e-07,   8.43429104e-10,
+          2.40555904e-12,   7.01544942e-14],
+       [  9.99997973e-01,   1.18787568e-06,   7.19388538e-07,
+          1.42483429e-07,   4.01445155e-10],
+       [  9.99636173e-01,   3.48971807e-04,   8.18189801e-06,
+          3.94306744e-06,   1.64266510e-06],
+       [  1.00000000e+00,   3.17521517e-17,   3.10509126e-19,
+          3.96929643e-24,   1.01022828e-25]], dtype=float32), indices=array([[14, 29, 25, 18,  3],
+       [38, 40, 18, 32, 26],
+       [25, 26, 24, 29, 30],
+       [28, 23, 20, 29, 41],
+       [ 3,  2,  5, 42, 35]], dtype=int32))
 ```
 
 #### German Traffic Sign - Analysis
