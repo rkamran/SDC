@@ -38,17 +38,76 @@ Here's how the overall network design looks like
 | Layer        | Description|
 |:-------------|:-------------|
 |Input Layer|Image 32x32 with 3 color channels|
-|Convolutional Layer 1|1x1 Stride with depth 6 with relu activation and avg_pooling with 2x2 strides|
-|Convolutional Layer 2|1x1 Stride with depth 16 with relu activation and avg_pooling with 2x2 strides|
+|Convolutional Layer 1|1x1 Stride of depth 6 with relu activation and avg_pooling with 2x2 strides|
+|Convolutional Layer 2|1x1 Stride of depth 16 with relu activation and avg_pooling with 2x2 strides|
 |Fully connected layer1|400 to 120 outputs|
-|Drop out layer| 70% To prevent overfitting|
+|Drop out layer| 50% To prevent overfitting|
 |Fully connected layer2|129 to 84|
-|Output layer(logits)|finally provides the classification matrix|
+|Output layer(logits)|Ouput layer provides the classification matrix|
 
+#### LeNet method
+```python
+def LeNet(x):    
+    # Arguments used for tf.truncated_normal, randomly defines variables for the weights and biases for each layer
+    #HYPER_PARAM
+    mu = 0
+    sigma = 0.1
+    
+    # Layer 1: Convolutional. Input = 32x32x1. Output = 28x28x6.
+    c1_w = tf.Variable(tf.truncated_normal((5,5,3,6),mean=mu, stddev=sigma), name="c1_w")
+    c1_b = tf.Variable(tf.zeros(6), name="c1_b")
+    c1 = tf.nn.conv2d(x, c1_w, [1,1,1,1], "VALID") + c1_b
 
+    # Activation.
+    c1 = tf.nn.relu(c1)
 
+    # Pooling. Input = 28x28x6. Output = 14x14x6.
+    c1 = tf.nn.avg_pool(c1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding="VALID")
 
-To train the model after tunning for several hyper parameters I finally setteled on these values to get an accuracy of 91%.
+    # Layer 2: Convolutional. Output = 10x10x16.
+    c2_w = tf.Variable(tf.truncated_normal((5, 5, 6, 16), mean = mu, stddev = sigma), name="c2_w")
+    c2_b = tf.Variable(tf.zeros(16), name="c2_b")
+    c2 = tf.nn.conv2d(c1, c2_w, [1,1,1,1], "VALID") + c2_b
+    
+    # Activation.
+    c2 = tf.nn.relu(c2)
+
+    # Pooling. Input = 10x10x16. Output = 5x5x16.
+    c2 = tf.nn.avg_pool(c2, ksize = [1, 2, 2, 1], strides = [1, 2, 2, 1], padding = "VALID")
+    
+    # Flatten. Input = 5x5x16. Output = 400.
+    fc0 = flatten(c2)
+    
+    
+    # Layer 3: Fully Connected. Input = 400. Output = 120.
+    fc1_w = tf.Variable(tf.truncated_normal(shape=(400, 120), mean = mu, stddev = sigma), name="fc1_w")
+    fc1_b = tf.Variable(tf.zeros(120), name="fc1_b")
+    fc1 = tf.add(tf.matmul(fc0, fc1_w), fc1_b)
+    
+    # Activation.
+    fc1 = tf.nn.relu(fc1)
+
+    keep_prob1 = tf.Variable(0.5)
+    dout1 = tf.nn.dropout(fc1, keep_prob1)        
+    
+    # Layer 4: Fully Connected. Input = 120. Output = 84.
+    fc2_w = tf.Variable(tf.truncated_normal(shape=(120, 84), mean = mu, stddev = sigma), name="fc2_w")
+    fc2_b = tf.Variable(tf.zeros(84), name="fc2_b")
+    fc2 = tf.add(tf.matmul(dout1, fc2_w), fc2_b)
+        
+    # Activation.
+    fc2 = tf.nn.relu(fc2)
+
+    
+    # Layer 5: Fully Connected. Input = 84. Output = 43(n_classes).
+    fc3_w = tf.Variable(tf.truncated_normal(shape=(84, 43), mean = mu, stddev = sigma), name="fc3_w")
+    fc3_b = tf.Variable(tf.zeros(43), name="fc3_b")
+    logits = tf.add(tf.matmul(fc2, fc3_w), fc3_b)
+    
+    return logits
+```
+
+To train the model after tunning for several hyper parameters I finally setteled on these values to get an accuracy of 93% to 95%.
 ```python
 #HYPER_PARAM
 rate = 0.001
@@ -77,19 +136,20 @@ By simply comparing prediction and labels I was able to calculate the profmace o
 Here's the sample output of the probabilities of the model. 
 
 ```python
-TopKV2(values=array([[ 35.99718094,  22.21012115,  18.89967346,  13.96571636,  13.4583683 ],
-       [ 47.02022171,  36.49865723,  33.2827301 ,  15.49156857,
-          2.43720818],
-       [ 60.55839157,  30.59966469,  14.05848503,   1.06750739,
-         -1.17944551],
-       [ 37.71593857,  31.65343285,  26.84954834,  19.51398849,
-         18.42823029],
-       [ 78.330513  ,  33.52876282,  29.87256622,  20.59123802,
-         19.82063293]], dtype=float32), indices=array([[17, 14, 30,  5, 29],
-       [38, 36, 40, 34, 20],
-       [25, 36, 22,  1,  4],
-       [28, 29, 25, 30, 24],
-       [ 3,  5,  2,  1,  6]], dtype=int32))
+TopKV2(values=array([[  9.05268312e-01,   8.89642462e-02,   5.75298956e-03,
+          1.39325812e-05,   2.10835822e-07],
+       [  9.99999881e-01,   1.13391181e-07,   8.43429104e-10,
+          2.40555904e-12,   7.01544942e-14],
+       [  9.99997973e-01,   1.18787568e-06,   7.19388538e-07,
+          1.42483429e-07,   4.01445155e-10],
+       [  9.99636173e-01,   3.48971807e-04,   8.18189801e-06,
+          3.94306744e-06,   1.64266510e-06],
+       [  1.00000000e+00,   3.17521517e-17,   3.10509126e-19,
+          3.96929643e-24,   1.01022828e-25]], dtype=float32), indices=array([[14, 29, 25, 18,  3],
+       [38, 40, 18, 32, 26],
+       [25, 26, 24, 29, 30],
+       [28, 23, 20, 29, 41],
+       [ 3,  2,  5, 42, 35]], dtype=int32))
 ```
 
 #### German Traffic Sign - Analysis
