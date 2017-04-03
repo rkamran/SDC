@@ -1,4 +1,4 @@
-##Behavioral Cloning Project
+## Behavioral Cloning Project
 
 The goals / steps of this project are the following:
 * Use the simulator to collect data of good driving behavior
@@ -12,7 +12,7 @@ The goals / steps of this project are the following:
 
 [architeture]: ./examples/cnn-architecture.png "Architecture Image"
 
-###Files Submitted
+### Files Submitted
 
 
 Following files were uploaded to code repository 
@@ -29,7 +29,7 @@ Code can be executed (provided all required python packages are installed) with 
 python drive.py model.h5
 ```
 
-###Model Architecture and Training Strategy
+### Model Architecture and Training Strategy
 For this project I continued using [NVIDIA's self driving car End to End architecture](https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/) as I learned it in the classroom and I found it to be working really well for this problem.
 
 ![alt text][architeture]
