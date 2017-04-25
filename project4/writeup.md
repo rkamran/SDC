@@ -198,10 +198,19 @@ right_fit_cr = np.polyfit(ploty*ym_per_pix, rightx*xm_per_pix, 2)
 left_curverad = ((1 + (2*left_fit_cr[0]*y_eval*ym_per_pix + left_fit_cr[1])**2)**1.5) / np.absolute(2*left_fit_cr[0])
 right_curverad = ((1 + (2*right_fit_cr[0]*y_eval*ym_per_pix + right_fit_cr[1])**2)**1.5) / np.absolute(2*right_fit_cr[0])
 
-vehicle_mid_meter = xm_per_pix*midpoint
-real_center = (xm_per_pix*width)/2
-vehicle_offset = real_center - vehicle_mid_meter
+center_x = (rightx - leftx)/2
+# avg distance
+agv_centerx = np.average(center_x)    
 
+# distance in meters
+center_xm = xm_per_pix * agv_centerx
+
+#actual difference 
+actual_center = 3.66/2
+
+#vehicle offset
+vehicle_offset = center_xm - actual_center
+    
 ``` 
 
 #### 3.6. Plotting the lane.
