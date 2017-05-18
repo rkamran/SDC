@@ -94,7 +94,7 @@ self.svc = LinearSVC()
 self.svc.fit(X_train, y_train)
 score = round(self.svc.score(X_test, y_test), 4)
 ```
-###3. Sliding Window Search
+### 3. Sliding Window Search
 In my code, the class ```CFCarFinder ``` has all the necessary methods to detect vehicles. The main implementation is in the
 method ```findcar_with_subsampling```. The sliding window is applied to the lower half of the image and HOG features are also calculated once and
  sub-sampled for each and every window thereafter.
@@ -128,7 +128,7 @@ Here are few examples of heat map
 
 
 
-### Video Implementation
+### Rubric 4. Video Implementation
 
 Here's a [link to my video result](./project_out.mp4)
 
@@ -138,7 +138,7 @@ Also calling the drawing after 10 frames so it reduces some false positive and k
 
 ---
 
-###Discussion
+### Discussion
 
 There's this problem with vehicles being detected on the other side of the freeway which I could not quite figure out to eliminate.
 Sometime it detects and or takes longer to get the vehicle in focus. The other issue I am trying to resolve 
