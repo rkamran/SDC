@@ -32,10 +32,9 @@ This document.
 
 ### Rubric 2. Histogram of Oriented Gradients
 
-###Histogram of Oriented Gradients (HOG)
+### Histogram of Oriented Gradients (HOG)
 
-There are two main classes in my code ```CFClassifier``` and ```CFCarFinder```. The method below in the classifier uses
- applies the HOG feature detection.
+There are two main classes in my code ```CFClassifier``` and ```CFCarFinder```. The method below in the classifier applies the HOG feature detection.
  
 ```python
 def get_hog_features(self, img, orient, pix_per_cell, cell_per_block, vis=False, feature_vec=False):
@@ -66,9 +65,9 @@ Cell_per_block =  2
 Orientation = 9
 ```
  
-Here are the results I have got for car and  Non car image using these classifier values
+Here are the results I have gotten for car and  Non car images using these classifier values.
 
-|Car   |HOG YCrCb Channels   |
+|Car/Not car   |HOG YCrCb Channels   |
 |---|---|
 |![image2]|![image3]|
 |![image1]|![image4]|
@@ -77,10 +76,10 @@ Here are the results I have got for car and  Non car image using these classifie
 
 
 #### Training
-```CFClassifier``` in the train method triggers the training of the model. For training I used three channels HOG features
+```CFClassifier``` in the ```train``` method triggers the training of the model. For training I used three channels HOG features
  detection along with histogram and spatial binning. I used scikit's LinearSVC as the classifier.
  
-Features are scaled using StandardScaler and 20-80 test/train split was also applied to labeled data. The following code blocks sums up the whole training pipeline.
+Features are scaled using ```StandardScaler``` and a 20-80 test/train split was also applied to the labeled data. The following code block sums up the whole training pipeline.
 
 ```python
 self.scaler = StandardScaler()
@@ -96,14 +95,14 @@ self.svc.fit(X_train, y_train)
 score = round(self.svc.score(X_test, y_test), 4)
 ```
 ###3. Sliding Window Search
-In my code, tje class ```CFCarFinder ``` has all the necessary methods to find car. The main implementation is in the
-name ```findcar_with_subsampling```. The sliding window is applied to the lower half of the image and HOG features are also calculated once and
- sub-sampled for each and every window.
+In my code, the class ```CFCarFinder ``` has all the necessary methods to detect vehicles. The main implementation is in the
+method ```findcar_with_subsampling```. The sliding window is applied to the lower half of the image and HOG features are also calculated once and
+ sub-sampled for each and every window thereafter.
  
-Since the training image size was 64x64, each window segment is also resized to make sure that the feature size match.
+Since the training image size was 64x64, each window segment is also resized to make sure that the feature size match when predict method is alled on the classifier.
 
-Number of windows and sliding is calculated using cells_per_step. Since I am doing subsampling on a pre caclulated hog
- nxsteps and nysteps are also calculated using cells_per_step and pixel per cell.
+Number of windows and sliding is calculated using ```cells_per_step```. Since I am doing subsampling on a pre caclulated hog
+ ```nxsteps``` and ```nysteps``` are also calculated using ```cells_per_step``` and ```pixel per cell```.
 
 ```python
 # 64 was the orginal sampling rate, with 8 cells and 8 pix per cell
@@ -135,12 +134,12 @@ Here's a [link to my video result](./project_out.mp4)
 
 I've already described the filtering method above with some examples of the heatmap.
  
-Also keeping the frames for 10 frames so it reduces some false positive and keeps the vehicles in focus.
+Also calling the drawing after 10 frames so it reduces some false positive and keeps the vehicles in focus with less flickering.
 
 ---
 
 ###Discussion
 
-There's this problem with vehicle's being detected on the other side of the freeway which I could not quite figure out to eliminate.
+There's this problem with vehicles being detected on the other side of the freeway which I could not quite figure out to eliminate.
 Sometime it detects and or takes longer to get the vehicle in focus. The other issue I am trying to resolve 
 is to display two overlapping cars as two different cars as opposed to one box.
