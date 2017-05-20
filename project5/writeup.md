@@ -143,3 +143,9 @@ Also calling the drawing after 10 frames so it reduces some false positive and k
 There's this problem with vehicles being detected on the other side of the freeway which I could not quite figure out to eliminate.
 Sometime it detects and or takes longer to get the vehicle in focus. The other issue I am trying to resolve 
 is to display two overlapping cars as two different cars as opposed to one box.
+
+One of the thing I want to test is to use conv net to detect the vehicle, I believe it will 
+perform better in just processing the image as is as we did with the lane detection project.
+ 
+At this time I guess vehicles not very similar to car or SUV will not be detected properly and in some cases object which are similar
+to back or side shape of a car shows up as false detection.  
