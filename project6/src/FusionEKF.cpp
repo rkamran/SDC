@@ -89,7 +89,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
             /**
              Convert radar from polar to cartesian coordinates and initialize state.
              */
-            ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], 0, 0;
+            float rho = measurement_pack.raw_measurements_(0);
+            float phi = measurement_pack.raw_measurements_(1);
+            
+            ekf_.x_ << rho * cos(phi), rho * sin(phi), 0,0;
             previous_timestamp_ = measurement_pack.timestamp_;
             
         }
